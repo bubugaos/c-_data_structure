@@ -1,0 +1,105 @@
+```c
+数组队列核心代码
+#include<stdio.h>
+int a[100],front = -1,rear = -1,N;
+int isempty() {
+	if (front == -1 && rear == -1) return true;
+	else return false;
+}
+void Enqueue(int x) {
+	if ((rear + 1) % N == front) {
+		printf("queue is full");
+		return;
+	}
+	else if (isempty()) {
+		front = 0;
+		rear = 0;
+	}
+	else {
+		rear = (rear + 1) % N;
+	}
+	a[rear] = x;
+	return;
+}
+void dequeue() {
+	if (isempty()) return;
+	else if (front == rear) {
+		front = -1;
+		rear = -1;
+	}
+	else {
+		front = (front + 1) % N;
+	}
+}
+int isfront() {
+	return a[front];
+}
+int main() {
+	int i, x;
+	scanf("%d",&N);
+	for (i = 0; i < 6; i++) {
+		scanf("%d",&x);
+		Enqueue(x);
+	}
+	dequeue();
+	dequeue();
+	Enqueue(9);
+	int t = isfront();
+	printf("%d",t);
+}
+链表法构建队列核心代码
+#include<stdio.h>
+#include<stdlib.h>
+struct node{
+	int data;
+	struct node *next;
+};
+struct node *front = NULL;
+struct node *rear = NULL;
+void Enqueue(int x) {
+	struct node *temp;
+	temp = (struct node *)malloc(sizeof(struct node));
+	temp->data = x;
+	temp->next = NULL;
+	if (front == NULL && rear == NULL) {
+		front = rear = temp;
+		return;
+	}
+	rear->next = temp;
+	rear = temp;
+	return;
+}
+void Dequeue() {
+	struct node *temp = front;
+	if (front == NULL) return;
+	else if (front == rear) {
+		front = rear = NULL;
+	}
+	else {
+		front = front->next;
+	}
+	free(temp);
+	return;
+}
+void point() {
+	struct node *t;
+	t = front;
+	while (t != NULL) {
+		printf("%d ",t->data);
+		t = t->next;
+	}
+	return;
+}
+int main() {
+	int n, i, x;
+	scanf("%d",&n);
+	for (i = 1; i <= n; i++) {
+		scanf("%d",&x);
+		Enqueue(x);
+	}
+	Dequeue();
+	point();
+	return 0;
+}
+```
+
